@@ -85,14 +85,6 @@ install(DIRECTORY include/cpr DESTINATION include)
 # ------------------------------------------------------------
 # export library
 # ------------------------------------------------------------
-# export cpr
-TARGET_INCLUDE_DIRECTORIES(cpr
-    PUBLIC
-        $<INSTALL_INTERFACE:>
-        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
-        $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
-)
-
 LIST(APPEND cpr_libs "${CPR_LIBRARIES}")
 LIST(APPEND cpr_libs "${CURL_LIBRARIES}")
 
@@ -102,7 +94,6 @@ FOREACH(cpr_lib ${cpr_libs})
       PUBLIC
           $<INSTALL_INTERFACE:>
           $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
-          $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
   )
 
   INSTALL(TARGETS ${cpr_lib} EXPORT cpr-targets
