@@ -82,37 +82,3 @@ endif()
 
 install(DIRECTORY include/cpr DESTINATION include)
 
-# ------------------------------------------------------------
-# export library
-# ------------------------------------------------------------
-LIST(APPEND cpr_libs "${CPR_LIBRARIES}")
-LIST(APPEND cpr_libs "${CURL_LIBRARIES}")
-
-# export cpr_lib
-FOREACH(cpr_lib ${cpr_libs})
-  TARGET_INCLUDE_DIRECTORIES(${cpr_lib}
-      PUBLIC
-          $<INSTALL_INTERFACE:>
-          $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
-  )
-
-  INSTALL(TARGETS ${cpr_lib} EXPORT cpr-targets
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-    RUNTIME DESTINATION bin
-    INCLUDES DESTINATION include)
-ENDFOREACH(cpr_lib ${cpr_libs})
-
-INCLUDE(CMakePackageConfigHelpers)
-
-SET(INSTALL_CONFIG_DIR ${INSTALL_LIB_DIR}/lib/cmake/cpr)
-CONFIGURE_PACKAGE_CONFIG_FILE(
-  "${CMAKE_CURRENT_SOURCE_DIR}/CprConfig.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/CprConfig.cmake"
-  INSTALL_DESTINATION ${INSTALL_CONFIG_DIR}
-)
-
-EXPORT(EXPORT cpr-targets FILE ${CMAKE_CURRENT_BINARY_DIR}/CprTargets.cmake)
-
-#Register package in user's package registry
-EXPORT(PACKAGE cpr)
